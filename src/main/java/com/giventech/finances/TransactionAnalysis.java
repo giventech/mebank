@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public  class TransactionAnalysis {
@@ -24,14 +23,28 @@ public  class TransactionAnalysis {
     public static double getRelativeAccountBalance(String accountId, String  startDate, String  endDate) {
         List <Transaction> allTransactions = TransactionAnalysis.loadTransactionFromCsvFile(transactionCsv);
         List <Transaction> dateRangedTransactions = listAccountTransactionForDateRange(accountId,startDate,endDate, allTransactions);
-        List <Transaction> transactionWitoutReversals = removeReversalTransactionFromList(dateRangedTransactions);
-        return 0.0;
+        List <Transaction> transactionWithoutReversals = removeReversalTransactionFromList(dateRangedTransactions);
+        Double relativeAccountBalance = transactionWithoutReversals.stream().mapToDouble(value -> {
+            if (value.getTransactionType() == TransactionType.PAYMENT) {
+                if (value.getFromAccountId().equals(accountId)){
+                    return ( 0 - value.getAmount() );
+                } else if (value.getToAccountId().equals(accountId)) {
+                    return value.getAmount();
+                }
+            }
+            return 0;
+        }).reduce(0, (subtotal, element) -> subtotal + element);
+        return relativeAccountBalance;
     }
 
 
     public static List<Transaction> removeReversalTransactionFromList(List <Transaction> transactions) {
         List<Transaction> reversalTransation = transactions.stream().filter(transaction -> transaction.getTransactionType() == TransactionType.REVERSAL).collect(Collectors.toList());
-        Predicate<Transaction> transactionPredicate = transaction -> reversalTransation.stream().anyMatch(transaction1 -> transaction.getTransactionId().equals(transaction1.getRelatedTransaction()));
+        Predicate<Transaction> transactionPredicate = transaction -> reversalTransation.stream().anyMatch(
+                transaction1 -> {
+                    boolean toReverse =   transaction1.getRelatedTransaction().equals(transaction.getTransactionId());
+                    return toReverse;
+                });
         transactions.removeIf(transactionPredicate);
         return transactions;
     }
@@ -81,7 +94,6 @@ public  class TransactionAnalysis {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //TODO in production a copy will be returned to prevent from clients
         return Collections.unmodifiableList(transactions);
     }
 }
