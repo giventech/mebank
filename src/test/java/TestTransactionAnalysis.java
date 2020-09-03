@@ -23,39 +23,30 @@ public class TestTransactionAnalysis {
         public void setUp () {
     }
 
-
     @Test
     public void itShouldReturnAListOfTransactions() {
 
-        // Given
+        //Given
         String fileName = TestTransactionAnalysis.fileName;
 
-        // When
+        //When
         List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
 
-
-        // Then
-
+        //Then
         assert(transactions != null);
-
-
     }
-
 
     @Test
     public void itShouldReturnRecordInaDateRage() {
-
-        // Given
+        //Given
         String fileName = TestTransactionAnalysis.fileName;
 
-        // When
+        //When
         List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
 
-        // Then
+        //Then
 
         assert(transactions != null);
-
-
     }
 
     @Test
@@ -69,11 +60,10 @@ public class TestTransactionAnalysis {
 
         List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
 
-        // When
+        //When
         List <Transaction> slicedTransactions = TransactionAnalysis.listAccountTransactionForDateRange(accountId, startDate,endDate, transactions);
 
         //Then
-
         assert(slicedTransactions != null);
         assert(slicedTransactions.size() == 3);
 
@@ -83,8 +73,6 @@ public class TestTransactionAnalysis {
 
     @Test
     public  void itShouldRemoveReverSalTransactions() {
-
-
         //Given
         String fileName = TestTransactionAnalysis.fileName;
         String accountId = TestTransactionAnalysis.accountId;
@@ -97,10 +85,8 @@ public class TestTransactionAnalysis {
         List<Transaction> reversalProcessed= TransactionAnalysis.removeReversalTransactionFromList(slicedTransactions);
 
         //Then
-
         assert(reversalProcessed != null);
         assert(reversalProcessed.size() == 2);
-
     }
 
 
@@ -117,13 +103,10 @@ public class TestTransactionAnalysis {
 
         //Then
         assert(total == -25.00);
-
-
     }
 
     @Test
     public void totalShoudBeFiveDollarAndFiftyCents() {
-
         //Given
         String accountId = "ACC998877";
         String startDate = "20/10/2018 12:47:55,";
@@ -134,12 +117,7 @@ public class TestTransactionAnalysis {
 
         //Then
         assert(total == 5.50);
-
-
     }
-
-
-
 }
 
 
