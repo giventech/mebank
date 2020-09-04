@@ -29,16 +29,43 @@ Change to the directory `mebank` and run `mvn clean install`
     
 ## DESIGN 
 ---------
+
+
+1) Separation of concerns based on S.O.L.I.D.
+2) Test Driven development allowing built-in quality and code refactoring
+3) Feature driven development based on requirements
+
+Also below listed the assumption for Non-functional requirement which will depends
+
 Design is based on TDD and refactoring the code keeping acceptance criteria satisfied.
 
-Stage1 created a static class
-Stage2 refactored code considering an instance variable holding the list of transaction collection
+
+### Test Driven Development
+
+Firt tests1 Implmented file loading functions for validation of file loading 
+Refactor  2 Refactor code including data model transaction transaction type as well as calcultations for 
+Refactor  3 Considering output formats, code, maintenances, and the possibility of multiple implemtations getRelativeAccountBalance
+Refactor  4 Considered risk of code consumers modifying critical source data (transaction loaded are copy and read-only of the original)
+
+
+### SOLID.
+
+Separation of concern: Transaction, Balance and Transaction type are are domain model,  TransactionAnalyser is an interface to business logic for the analyser
+Open for extensiont Close for Modification: Proding the interface give flexibility for overriding the implementation of the analyser methods in case requirement change
+or e.g. transaction cam be sourced from different datasource
+Liskov Principle: TransactionAnalyser expose two interfaces currently, this could be only one based on the need to API client.
+
+
 Note: In a production environment this would need to be considered/re-considered based platorm capacity 
 e.g. does this list of transaction need to be cached, synchronised with other processes 
 
-## FURTHER IMPROVEMENT
-----------------------
+## FEATURE DRIVEN DEVELOPMENT VS  NON-FUNCTIONAL REQUIREMENTS
+-------------------------------------------------------------
 
-1) Caching requests
-2) Synchronize access to all transactions
-3) Consolidate code to ensure immutability of critical data (this would be in discussion with BA)
+Currently a back of NFR/Functional feature could be considered base on the assumptions below
+While these are not specified in the problement statement the current solution design will enable the addition of these features in interative fashion
+Thanks to S.O.L.I.D. Design and how the application is build.
+
+As a bank tellers we want to be able to consults concurrently data from all transaction so that we can respond to clietns
+-> Caching requests, synchronisation or access to the collection of all transaction could be considered.
+-> Parallel stream
