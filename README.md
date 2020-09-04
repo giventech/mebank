@@ -60,7 +60,7 @@ or e.g. transaction cam be sourced from different datasource
 
 Note: In a production environment this would need to be considered/re-considered based platorm capacity e.g. does this list of transaction need to be cached, synchronised with other processes 
 
-## Feature Driven Developemt  VS  Non Functional Requirements
+## Feature Driven Development  VS  Non Functional Requirements
 -------------------------------------------------------------
 * Application could be re-factored based on the assumption below
 
