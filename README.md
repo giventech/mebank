@@ -15,13 +15,15 @@ Change to the directory `mebank` and run `mvn clean install`
 
 ## Run the solution
 -------------------
-Run the command below and provide the data input:
+### Run the command below and provide the data input:
 
 java -cp target/me-bank-1.0-SNAPSHOT.jar com.giventech.finances.Main
 
-<accountid>,<start date>,<end date>
+### Provide the input as comma separated list
+
+accountid,start date,end date
     
-## Output 
+## Example of input and outputs
 ---------
 
 ![image](https://user-images.githubusercontent.com/17228294/92208668-0c496900-eecf-11ea-9ee8-cda61b0595e0.png)
