@@ -1,6 +1,8 @@
 import com.giventech.finances.model.Balance;
-import com.giventech.finances.service.TransactionAnalysis;
+import com.giventech.finances.service.TransactionAnalyser;
+import com.giventech.finances.service.TransactionAnalyserImpl;
 import com.giventech.finances.model.Transaction;
+import com.giventech.finances.utils.Utils;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import java.util.List;
@@ -10,10 +12,10 @@ public class TestTransactionAnalysis {
     public static String fileName = "transaction.csv";
     public static String accountId = "ACC334455";
     public static String startDate = "20/10/2018 12:00:00";
-    public static  String endDate = "20/10/2018 19:00:00";
+    public static String endDate = "20/10/2018 19:00:00";
 
     @BeforeEach
-        public void setUp () {
+    public void setUp () {
     }
 
     @Test
@@ -23,7 +25,7 @@ public class TestTransactionAnalysis {
         String fileName = TestTransactionAnalysis.fileName;
 
         //When
-        List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
+        List <Transaction> transactions  = Utils.loadTransactionFromCsvFile(fileName);
 
         //Then
         assert(transactions != null);
@@ -35,7 +37,7 @@ public class TestTransactionAnalysis {
         String fileName = TestTransactionAnalysis.fileName;
 
         //When
-        List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
+        List <Transaction> transactions  = Utils.loadTransactionFromCsvFile(fileName);
 
         //Then
         assert(transactions != null);
@@ -50,10 +52,10 @@ public class TestTransactionAnalysis {
         String startDate = TestTransactionAnalysis.startDate;
         String endDate = TestTransactionAnalysis.endDate;
 
-        List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
+        List <Transaction> transactions  = Utils.loadTransactionFromCsvFile(fileName);
 
         //When
-        List <Transaction> slicedTransactions = TransactionAnalysis.listAccountTransactionForDateRange(accountId, startDate,endDate, transactions);
+        List <Transaction> slicedTransactions = Utils.listAccountTransactionForDateRange(accountId, startDate,endDate, transactions);
 
         //Then
         assert(slicedTransactions != null);
@@ -68,11 +70,11 @@ public class TestTransactionAnalysis {
         String startDate = TestTransactionAnalysis.startDate;
         String endDate = TestTransactionAnalysis.endDate;
 
-        List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
-        List <Transaction> slicedTransactions = TransactionAnalysis.listAccountTransactionForDateRange(accountId, startDate,endDate, transactions);
+        List <Transaction> transactions  = Utils.loadTransactionFromCsvFile(fileName);
+        List <Transaction> slicedTransactions = Utils.listAccountTransactionForDateRange(accountId, startDate,endDate, transactions);
 
         // When
-        List<Transaction> reversalProcessed= TransactionAnalysis.removeReverSalTransactionFrom(transactions,slicedTransactions);
+        List<Transaction> reversalProcessed= Utils.removeReversalTransactionsFrom(transactions,slicedTransactions);
 
         //Then
         assert(reversalProcessed != null);
@@ -88,10 +90,10 @@ public class TestTransactionAnalysis {
         String startDate = TestTransactionAnalysis.startDate;
         String endDate = TestTransactionAnalysis.endDate;
         String fileName = TestTransactionAnalysis.fileName;
-        TransactionAnalysis transactionAnalysis = new TransactionAnalysis(fileName);
+        TransactionAnalyser transactionAnalyserImpl = new TransactionAnalyserImpl(fileName);
 
         // When
-        Balance balance = transactionAnalysis.getRelativeAccountBalance(accountId, startDate,endDate);
+        Balance balance = transactionAnalyserImpl.getRelativeAccountBalance(accountId, startDate,endDate);
 
         //Then
         assert(balance.getRelativeBalance() == -25.00);
@@ -104,11 +106,10 @@ public class TestTransactionAnalysis {
         String accountId = "ACC998877";
         String startDate = "20/10/2018 12:47:55";
         String endDate = "20/10/2018 18:45:00";
-        TransactionAnalysis transactionAnalysis = new TransactionAnalysis(fileName);
-
+        TransactionAnalyser transactionAnalyserImpl = new TransactionAnalyserImpl(fileName);
 
         // When
-        Balance balance = transactionAnalysis.getRelativeAccountBalance(accountId, startDate,endDate);
+        Balance balance = transactionAnalyserImpl.getRelativeAccountBalance(accountId, startDate,endDate);
 
         //Then
         assert(balance.getRelativeBalance() == -5);
@@ -120,10 +121,10 @@ public class TestTransactionAnalysis {
     public void itShouldLoadAllTheTransactionsInMemory() {
         //Given
         String fileName = TestTransactionAnalysis.fileName;
-        TransactionAnalysis transactions;
+        TransactionAnalyser transactions;
 
         // When
-        transactions = new TransactionAnalysis(fileName);
+        transactions = new TransactionAnalyserImpl(fileName);
 
         //Then
         assert(transactions !=null );
