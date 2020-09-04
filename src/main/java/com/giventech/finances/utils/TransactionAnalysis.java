@@ -1,12 +1,9 @@
-package com.giventech.finances;
+package com.giventech.finances.utils;
 
 import com.giventech.finances.model.Transaction;
 import com.giventech.finances.model.TransactionType;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -53,10 +50,10 @@ public  class TransactionAnalysis {
         return transactions.stream().filter(transaction ->       {
             boolean test =false;
             try {
-                test=
-                        (transaction.getFromAccountId().equals(accountId) || transaction.getToAccountId().equals(accountId)) &&
-                    transaction.getCreatedAt().after(dateFormater.parse(startDate)) &&
-                    transaction.getCreatedAt().before(dateFormater.parse(endDate));
+                //We want to consider transaction to and fromm account id
+                test=  (transaction.getFromAccountId().equals(accountId) || transaction.getToAccountId().equals(accountId)) &&
+                        transaction.getCreatedAt().after(dateFormater.parse(startDate)) &&
+                        transaction.getCreatedAt().before(dateFormater.parse(endDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -66,11 +63,10 @@ public  class TransactionAnalysis {
 
 
     public static List<Transaction> loadTransactionFromCsvFile (String csvFileName)  {
-        ClassLoader classLoader = TransactionAnalysis.class.getClassLoader();
-        File transactionCsvFile = new File(classLoader.getResource(csvFileName).getFile());
+        InputStream in = TransactionAnalysis.class.getResourceAsStream("/"+csvFileName);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         List<Transaction> transactions = null;
-        try {
-            transactions = Files.lines(Paths.get(transactionCsvFile.getPath()))
+            transactions = reader.lines()
                     .map(line -> {
                         String linesRead[] = line.split(",");
                         Transaction transaction = null;
@@ -91,9 +87,7 @@ public  class TransactionAnalysis {
                         return transaction;
                     })
                     .collect(Collectors.toList());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         return Collections.unmodifiableList(transactions);
     }
 }

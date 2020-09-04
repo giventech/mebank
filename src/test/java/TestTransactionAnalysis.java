@@ -1,23 +1,15 @@
-import com.giventech.finances.TransactionAnalysis;
+import com.giventech.finances.utils.TransactionAnalysis;
 import com.giventech.finances.model.Transaction;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class TestTransactionAnalysis {
 
-    public static final Double REVERSAL_POSITIVE_TOTAL = 0.0;
-    public static final Double PAYMENT_POSITIVE_TOTAL = 0.0;
-
-    public static String pattern = "yyyy-MM-dd HH:mm:ss";
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(pattern);
     public static String fileName = "transaction.csv";
     public static String accountId = "ACC334455";
     public static String startDate = "20/10/2018 12:00:00";
     public static  String endDate = "20/10/2018 19:46:00";
-
 
     @BeforeEach
         public void setUp () {
@@ -45,7 +37,6 @@ public class TestTransactionAnalysis {
         List <Transaction> transactions  = TransactionAnalysis.loadTransactionFromCsvFile(fileName);
 
         //Then
-
         assert(transactions != null);
     }
 
@@ -66,9 +57,6 @@ public class TestTransactionAnalysis {
         //Then
         assert(slicedTransactions != null);
         assert(slicedTransactions.size() == 3);
-
-
-
     }
 
     @Test

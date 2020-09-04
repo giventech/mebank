@@ -50,6 +50,9 @@ public  class Transaction {
         return relatedTransaction;
     }
 
+    //Given the nature of the data(financial transaction).
+    //The API does not define setters to prevent data corruption from client
+
 
 
 
