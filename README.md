@@ -24,7 +24,7 @@ Change to the directory `mebank` and run `mvn clean install`
     
 ## Output 
 ---------
-    
+    ![image](https://user-images.githubusercontent.com/17228294/92215403-0efc8c00-eed8-11ea-969f-a2335a897bbb.png)
     
     
 ## DESIGN 
