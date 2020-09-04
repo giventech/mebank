@@ -20,7 +20,7 @@ Change to the directory `mebank` and run `mvn clean install`
 
 ## Run Exercise 1 
 ------------------
-    java -cp target/me-bank-1.0-SNAPSHOT.jar mebank.Main
+    java -cp target/me-bank-1.0-SNAPSHOT.jar com.giventech.finances.Main
     
 ## Output 
 ---------
