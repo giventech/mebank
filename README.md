@@ -34,7 +34,7 @@ accountid,start date,end date
 
 The design consider the belwo 
 3) Feature base implementation with validation of acceptance criteria (TDD supporting this)
-1) Single responsibility  based on S.O.L.I.D.
+1) Single responsibility based on S.O.L.I.D.
 2) Test Driven development allowing built-in quality and code refactoring
 
 
@@ -42,7 +42,7 @@ The design consider the belwo
 Design is based on TDD and refactoring the code keeping acceptance criteria satisfied.
 
 
-### Test Driven Development
+### Test Driven Development (Supporting Feature Based developements)
 
 * Basic Unit tests:  Implemented file loading and transaction seggregation function
 * Refactor  2 Refactor code including data model transaction transaction type as well as calcultations for 
@@ -58,9 +58,9 @@ or e.g. transaction cam be sourced from different datasource
 * Liskov Principle: TransactionAnalyser expose two method signatures currently, this could be only one based on the need to API client.
 * Dependency: Injection (TBC)
 
-Note: In a production environment this would need to be considered/re-considered based platorm capacity e.g. does this list of transaction need to be cached, synchronised with other processes 
+Note: In a production environment performance improvement can beconsidered/re-considered based platorm capacity e.g. does this list of transaction need to be cached, synchronised with other processes 
 
-## Feature Driven Development  VS  Non Functional Requirements
+## Backlog of possible improvements Feature Driven Development  VS  Non Functional Requirements
 -------------------------------------------------------------
 * Application could be re-factored based on the assumption below
 
