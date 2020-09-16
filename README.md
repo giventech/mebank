@@ -1,9 +1,4 @@
-# mebank
-
-
-# How to Run
-
-This is a step-by-step guide how to run the example:
+# Technical challenge 
 
 ## Installation
 
@@ -18,27 +13,57 @@ This is a step-by-step guide how to run the example:
 
 Change to the directory `mebank` and run `mvn clean install` 
 
-## Run Exercise 1 
-------------------
-    java -cp target/me-bank-1.0-SNAPSHOT.jar mebank.Main
+## Run the solution
+-------------------
+### Run the command below and provide the data input:
+
+java -cp target/me-bank-1.0-SNAPSHOT.jar com.giventech.finances.Main
+
+### Provide the input as comma separated list
+
+accountid,start date,end date
     
-## Output 
+## Example of input and outputs
 ---------
+
+![image](https://user-images.githubusercontent.com/17228294/92208668-0c496900-eecf-11ea-9ee8-cda61b0595e0.png)
+   
     
-    
-    
-## DESIGN 
+## Design 
 ---------
+
+The design consider the belwo 
+3) Feature base implementation with validation of acceptance criteria (TDD supporting this)
+1) Single responsibility based on S.O.L.I.D.
+2) Test Driven development allowing built-in quality and code refactoring
+
+
+
 Design is based on TDD and refactoring the code keeping acceptance criteria satisfied.
 
-Stage1 created a static class
-Stage2 refactored code considering an instance variable holding the list of transaction collection
-Note: In a production environment this would need to be considered/re-considered based platorm capacity 
-e.g. does this list of transaction need to be cached, synchronised with other processes 
 
-## FURTHER IMPROVEMENT
-----------------------
+### Test Driven Development (Supporting Feature Based developements)
 
-1) Caching requests
-2) Synchronize access to all transactions
-3) Consolidate code to ensure immutability of critical data (this would be in discussion with BA)
+* Basic Unit tests:  Implemented file loading and transaction seggregation function
+* Refactor  2 Refactor code including data model transaction transaction type as well as calcultations for 
+* Refactor  3 Considering output formats, code, maintenances, and the possibility of multiple implemtations getRelativeAccountBalance
+* Refactor  4 Considered risk of code consumers modifying critical source data (transaction loaded are copy and read-only of the original)
+
+
+### SOLID.
+
+*  Single Responsibility :   TransactionAnalyser is the sole  interface to business logic for the analyser, Utils provide helpers to manipulate transactions
+*  Open for extension Close for Modification: Proding the interface give flexibility for overriding the implementation of the analyser methods in case requirement change. 
+or e.g. transaction cam be sourced from different datasource
+* Liskov Principle: TransactionAnalyser expose two method signatures currently, this could be only one based on the need to API client.
+* Dependency: Injection (TBC)
+
+Note: In a production environment performance improvement can beconsidered/re-considered based platorm capacity e.g. does this list of transaction need to be cached, synchronised with other processes 
+
+## Backlog of possible improvements Feature Driven Development  VS  Non Functional Requirements
+-------------------------------------------------------------
+* Application could be re-factored based on the assumption below
+
+* As a bank tellers we want to be able to consults concurrently data from all transaction so that we can respond to clietns
+- Caching requests, synchronisation or access to the collection of all transaction could be considered.
+- Parallel stream
