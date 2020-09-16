@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface TransactionAnalyser {
 
+
     Balance getRelativeAccountBalance(String accountId, String  startDate, String  endDate);
     List<Transaction> getAllTransactions();
+
+    
 }
